@@ -1,2 +1,2 @@
 # Messenger-Turin-University-app-with-flask
-A chat app which created with flask
+A new version of Turin university messenger app
