@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Message</title>
+    <!--there has a problem in local with syles and another things-->
+
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html,
+        body {
+            height: 100%;
+        }
+
+        html {
+            font-size: 58.5%;
+        }
+
+        body {
+            font-family: "Segoe UI", "Segoe UI", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .grid {
+            display: grid;
+            height: 100%;
+            grid-template-columns: repeat(12, 1fr);
+            grid-template-rows: 12.8rem 1fr;
+            background: url('https://cdn.pixabay.com/photo/2017/08/30/01/05/milky-way-2695569_960_720.jpg');
+            background-size: cover;
+        }
+
+        .app {
+            display: grid;
+            grid-template-columns: 42rem 1fr;
+            grid-column: 1 / -1;
+            grid-row: 1 / -1;
+            width: 139.6rem;
+            margin: 2rem auto;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            box-shadow: 0 0 1rem 0.05rem rgba(0, 0, 0, 0.2);
+        }
+
+        .sidebar {
+            grid-column: 1 / 2;
+            background-color: white;
+            border-right: 1px solid rgba(0, 0, 0, 0.2);
+        }
+
+        .search-chat {
+            background: #f6f6f6;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+        }
+
+        .search-bar {
+            display: flex;
+            padding: 1rem;
+            border-bottom: 1px solid #ededed;
+        }
+
+        .search-bar input {
+            outline: none;
+            border: none;
+            padding: 1rem 1rem 1rem 2rem;
+            flex: 1;
+            border-top-right-radius: 2rem;
+            border-bottom-right-radius: 2rem;
+            font-family: "Segoe UI";
+        }
+
+        .search-bar input::placeholder {
+            color: #919191;
+        }
+
+        .chats {
+            height: 60rem;
+            overflow-y: scroll;
+            overflow-x: hidden;
+        }
+
+        .chats::-webkit-scrollbar {
+            width: 0.7rem;
+            height: 3rem;
+        }
+
+        .chats::-webkit-scrollbar-thumb {
+            background-color: #cccccc;
+        }
+
+        .chat {
+            display: flex;
+            align-items: center;
+            background-color: white;
+            padding: 1rem 0 0 2rem;
+            cursor: pointer;
+        }
+
+        .chat:hover {
+            background: #f5f5f5;
+        }
+
+        .chat-right {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            margin-left: 1.5rem;
+            padding-right: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #ededed;
+        }
+
+        .chat-right-top {
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+
+        .contact-name {
+            font-size: 2.3rem;
+        }
+
+        .main {
+            grid-column: 2 / -1;
+            position: relative;
+            background: url('../static/bg-for-web.jpg');
+        }
+
+        .chat-window-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 6rem;
+            padding: 1rem 2rem;
+            background-color: #ededed;
+            cursor: pointer;
+        }
+
+        .chat-window-header-left {
+            display: flex;
+            align-items: center;
+        }
+
+        .contact-name-container {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .chat-window-contact-name {
+            font-size: 1.7rem;
+        }
+
+        a.fill-div {
+            display: block;
+            height: 100%;
+            width: 100%;
+            text-decoration: none;
+        }
+
+        .chat-window {
+            display: flex;
+            flex-direction: column;
+            padding: 10rem 10rem 6rem 10rem;
+            height: 62rem;
+            overflow: scroll;
+            overflow-x: hidden;
+        }
+
+        .chat-window::-webkit-scrollbar {
+            width: 0.7rem;
+            height: 3rem;
+        }
+
+        .chat-window::-webkit-scrollbar-track {
+            background: #e5ddd5;
+        }
+
+        .chat-window::-webkit-scrollbar-thumb {
+            background: #bab3ae;
+        }
+
+        .sender,
+        .receiver {
+            border-radius: 0.5rem;
+            padding: 0.8rem 1rem;
+            margin-bottom: 0.3rem;
+            position: relative;
+        }
+
+        .sender {
+            background-color: #dcf8c6;
+            align-self: flex-end;
+        }
+
+        .receiver {
+            background-color: white;
+            align-self: flex-start;
+        }
+
+        .sender-message,
+        .receiver-message {
+            font-size: 1.4rem;
+            margin-right: 3rem;
+        }
+
+        .message-time {
+            color: gray;
+            font-size: 1.08rem;
+        }
+
+        input[type="range"]:focus {
+            outline: none;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            background-color: #30b6b6;
+            cursor: pointer;
+            height: 1.5rem;
+            width: 1.5rem;
+            border-radius: 50%;
+        }
+
+        input[type="range"] {
+            background: #d8d8d8;
+            width: 100%;
+            height: 0.5rem;
+            -webkit-appearance: none;
+            border-radius: 1rem;
+        }
+
+        .type-message-bar {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            display: flex;
+            padding: 1rem 2rem;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 999;
+            background-color: #f0f0f0;
+        }
+
+        .type-message-bar-center {
+            flex: 1;
+        }
+
+        .type-message-bar-center input {
+            width: 100%;
+            outline: none;
+            border: none;
+            padding: 1rem 1rem 1rem 2rem;
+            flex: 1;
+            border-radius: 2rem;
+            font-family: "Segoe UI";
+        }
+
+        .type-message-bar-center input::-webkit-input-placeholder {
+            font-size: 1.5rem;
+        }
+
+        .input-required {
+            font-size: large;
+        }
+
+        .type-message-bar-right {
+            margin-left: 2rem;
+        }
+    </style>
+
+
+    <script>
+        document.getElementById("submit-btn").addEventListener("click", () => {
+            const input_value = document.getElementById("input_field").value;
+            window.location.href = `http://localhost:5000/message/to=${input_value}`;
+        });
+    </script>
+
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+    <!-- FontAwesome ICONS -->
+    <script src="https://kit.fontawesome.com/16fda319fc.js" crossorigin="anonymous"></script>
+</head>
+
+
+
+<body>
+    <div class="grid">
+        <div class="app">
+            <div class="sidebar">
+                <div class="search-chat">
+                    <div class="search-bar">
+                        <input type="text" placeholder="Enter username to chat:" class="input-required"
+                            id="input_field"><button type="submit" class="btn btn-lg" id="submit-btn"><i
+                                class="fas fa-paper-plane"></i></button>
+                    </div>
+                </div>
+                <!-- Chats -->
+                <div class="chats">
+                    {% for name in people %}
+                    <div class="chat">
+                        <a href="/message/to={{name}}" class="fill-div">
+                            <div class="chat-right">
+                                <div class="chat-right-top">
+                                    <span class="contact-name">{{name}}</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="main" style="background-image: url('../static/bg-for-web.jpg'); background-size: cover;"></div>
+        </div>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather app</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        align-items: center;
+        background-image: linear-gradient(to top, #a18cd1 0%, #fbc2eb 100%);
+        font-family: sans-serif;
+        color: white;
+    }
+
+    .degree-section span {
+        position: relative;
+        font-size: 35px;
+        margin-left: 115px;
+    }
+
+
+    .degree-section h2 {
+        font-size: 40px;
+        position: fixed;
+    }
+
+
+    #icon img {
+        text-decoration: none;
+        margin-left: 280px;
+    }
+
+    #locations {
+        margin-left: -70px;
+        margin-top: -46px;
+        position: relative;
+    }
+
+    .temperature {
+        padding: 50px;
+    }
+
+
+    #temperature-description {
+        margin-top: 50px;
+    }
+
+
+    #inp {
+        margin-top: -20px;
+        margin-left: -50px;
+        padding-top: 8px;
+        padding-right: 100px;
+    }
+
+    #btn {
+        margin-top: 80px;
+        margin-right: 170px;
+        padding: 5px 5px;
+        box-shadow: 0 0 20px;
+        border-radius: 5px;
+        border: 2px solid aquamarine;
+    }
+
+    #btn2 {
+        margin-left: 170px;
+        margin-top: -29px;
+        padding: 5px 5px;
+        box-shadow: 0 0 20px;
+        border-radius: 5px;
+        border: 2px solid aquamarine;
+    }
+</style>
+
+<body>
+
+    <div id="icon">
+        <!--data come from user-->
+    </div>
+
+
+    <div id="locations">
+        <h1 id="locationsh1">Weather APP sFarkhod</h1>
+        <!--data come from user-->
+    </div>
+
+
+    <div class="temperature">
+
+        <div class="degree-section">
+            <h2 id="temperature-degree">00.00</h2>
+            <span>℃</span>
+        </div>
+
+        <div id="temperature-description">
+            <!---->
+        </div>
+
+    </div>
+
+
+    <input type="text" id="inp">
+
+    <button id="btn">Search with your geoposition</button>
+    <button id="btn2">Search city/region</button>
+
+
+    <script>
+        let icon = document.getElementById('icon');
+        let h1s = document.getElementById('locationsh1');
+        let h2s = document.getElementById('temperature-degree');
+        let desc = document.getElementById('temperature-description');
+        let button = document.getElementById('btn');
+        let button2 = document.getElementById('btn2');
+
+
+
+
+        button.addEventListener('click', () => {
+            let lon;
+            let lat;
+
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(position => {
+                    console.log(position);
+                    lon = position.coords.longitude;
+                    lat = position.coords.latitude;
+
+                    fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&appid=5814002cd41aedcc0accef0bafda4907`)
+                        .then(res => res.json())
+                        .then(data => {
+                            console.log(data);
+                            h1s.textContent = data.name;
+                            h2s.textContent = data.main.temp;
+                            const icons = data.weather[0].icon;
+                            icon.innerHTML = `<img src="http://openweathermap.org/img/w/${icons}.png" alt="picture" />`
+                            desc.innerHTML = `<h1>${data.weather[0].main}</h1>`;
+                        });
+                })
+            }
+        })
+
+
+        button2.addEventListener('click', () => {
+
+            let input = document.getElementById('inp').value;
+
+            fetch(`https://api.openweathermap.org/data/2.5/weather?q=${input}&units=metric&appid=5814002cd41aedcc0accef0bafda4907`)
+                .then(res => res.json())
+                .then(data => {
+                    console.log(data);
+                    h1s.textContent = data.name;
+                    h2s.textContent = data.main.temp;
+                    const icons = data.weather[0].icon;
+                    icon.innerHTML = `<img src="http://openweathermap.org/img/w/${icons}.png" alt="picture" />`
+                    desc.innerHTML = `<h1>${data.weather[0].main}</h1>`;
+                });
+
+        })
+
+    </script>
+</body>
+
+</html>
